@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "reactstrap";
 import PersonsTable from "./components/PersonsTable";
 import AddPersonModal from "./components/AddPersonModal";
 
