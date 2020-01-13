@@ -41,14 +41,19 @@ export default class AddPersonModal extends Component {
       last_name: this.state.lName,
       email: this.state.email
     };
+    console.log(newPerson, "<-- newPerson");
 
     axios
-      .post("http://earnezinochea.challenge.trinom.io/api/peoples", {
-        newPerson
-      })
+      .post("http://earnezinochea.challenge.trinom.io/api/peoples", newPerson)
       .then(res => {
         console.log(res, "<-- respuesta del servidor");
+      })
+      .catch(error => {
+        if (error.response) {
+          console.log(error.response.data);
+        }
       });
+    window.location.reload();
   };
 
   render() {
@@ -58,9 +63,11 @@ export default class AddPersonModal extends Component {
           Add New Person
         </Button>
         <Modal isOpen={this.state.isOpen}>
-          <ModalHeader toggle={this.toggleModal}>Enter your data</ModalHeader>
+          <ModalHeader toggle={this.toggleModal}>
+            Adding a new person
+          </ModalHeader>
           <ModalBody>
-            <Form>
+            <Form noValidate>
               <FormGroup>
                 <Label for="firstName">First Name</Label>
                 <Input
