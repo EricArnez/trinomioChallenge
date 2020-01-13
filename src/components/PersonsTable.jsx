@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Table, Button } from "reactstrap";
 import axios from "axios";
+import ModifyPersonModal from "./ModifyPersonModal";
 
 export default class PersonsTable extends Component {
   state = {
@@ -40,7 +41,7 @@ export default class PersonsTable extends Component {
             <Button>add new course</Button>
           </td>
           <td>
-            <Button>modify Person</Button>
+            <ModifyPersonModal personID={person.id} />
           </td>
           <td>
             <Button color="danger" onClick={() => this.handleDelete(person.id)}>
