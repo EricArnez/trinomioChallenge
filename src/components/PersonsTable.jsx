@@ -15,6 +15,21 @@ export default class PersonsTable extends Component {
       });
   }
 
+  handleDelete = personID => {
+    axios
+      .delete(
+        "http://earnezinochea.challenge.trinom.io/api/peoples/" + personID
+      )
+      .then(res => {
+        window.location.reload();
+      })
+      .catch(error => {
+        if (error.response) {
+          console.log(error.response.data);
+        }
+      });
+  };
+
   render() {
     let renderTableRow = this.state.persons.map(person => {
       return (
@@ -28,7 +43,9 @@ export default class PersonsTable extends Component {
             <Button>modify Person</Button>
           </td>
           <td>
-            <Button color="danger">remove person</Button>
+            <Button color="danger" onClick={() => this.handleDelete(person.id)}>
+              remove person
+            </Button>
           </td>
         </tr>
       );
