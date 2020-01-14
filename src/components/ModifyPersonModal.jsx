@@ -92,8 +92,10 @@ export default class AddPersonModal extends Component {
         <Button color="primary" onClick={this.toggleModal}>
           Modify Person
         </Button>
-        <Modal isOpen={this.state.isOpen}>
-          <ModalHeader toggle={this.toggleModal}>Modifying person</ModalHeader>
+        <Modal isOpen={this.state.isOpen} autoFocus={false}>
+          <ModalHeader toggle={this.toggleModal}>
+            Modifying {this.props.personFullName}
+          </ModalHeader>
           <ModalBody>
             <Form noValidate>
               <FormGroup>
@@ -105,6 +107,7 @@ export default class AddPersonModal extends Component {
                   id="firstName"
                   placeholder={this.state.fName}
                   onChange={this.handleFNameChange}
+                  autoFocus={true}
                 />
               </FormGroup>
               <FormGroup>

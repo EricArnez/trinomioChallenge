@@ -59,10 +59,10 @@ export default class AddPersonModal extends Component {
   render() {
     return (
       <React.Fragment>
-        <Button color="primary" onClick={this.toggleModal}>
+        <Button color="primary" onClick={this.toggleModal} autoFocus>
           Add New Person
         </Button>
-        <Modal isOpen={this.state.isOpen}>
+        <Modal isOpen={this.state.isOpen} autoFocus={false}>
           <ModalHeader toggle={this.toggleModal}>
             Adding a new person
           </ModalHeader>
@@ -77,6 +77,7 @@ export default class AddPersonModal extends Component {
                   id="firstName"
                   placeholder="First Name..."
                   onChange={this.handleFNameChange}
+                  autoFocus={true}
                 />
               </FormGroup>
               <FormGroup>

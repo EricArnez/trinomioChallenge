@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Table, Button } from "reactstrap";
 import axios from "axios";
 import ModifyPersonModal from "./ModifyPersonModal";
+import AddCourseModal from "./AddCourseModal";
 
 export default class PersonsTable extends Component {
   state = {
@@ -33,15 +34,22 @@ export default class PersonsTable extends Component {
 
   render() {
     let renderTableRow = this.state.persons.map(person => {
+      let personFullName = person.first_name + " " + person.last_name;
       return (
         <tr key={person.id}>
           <td>{person.first_name + " " + person.last_name}</td>
 
           <td>
-            <Button>add new course</Button>
+            <AddCourseModal
+              personID={person.id}
+              personFullName={personFullName}
+            />
           </td>
           <td>
-            <ModifyPersonModal personID={person.id} />
+            <ModifyPersonModal
+              personID={person.id}
+              personFullName={personFullName}
+            />
           </td>
           <td>
             <Button color="danger" onClick={() => this.handleDelete(person.id)}>
@@ -57,7 +65,7 @@ export default class PersonsTable extends Component {
         <thead>
           <tr>
             <th>Persons</th>
-            <th>Add Course</th>
+            <th>Add Courses</th>
             <th>Modify</th>
             <th>Remove</th>
           </tr>
