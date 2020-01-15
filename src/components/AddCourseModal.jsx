@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import CoursesCheckBoxs from "./CoursesCheckBoxs";
 
@@ -27,7 +26,8 @@ export default class AddCourseModal extends Component {
             Adding New Courses For {this.props.personFullName}
           </ModalHeader>
           <ModalBody>
-            <CoursesCheckBoxs personID={this.props.personID} />
+            {" "}
+            <CoursesCheckBoxs person={this.props.person} />
           </ModalBody>
 
           <ModalFooter>

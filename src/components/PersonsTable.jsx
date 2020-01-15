@@ -40,10 +40,7 @@ export default class PersonsTable extends Component {
           <td>{person.first_name + " " + person.last_name}</td>
 
           <td>
-            <AddCourseModal
-              personID={person.id}
-              personFullName={personFullName}
-            />
+            <AddCourseModal person={person} personFullName={personFullName} />
           </td>
           <td>
             <ModifyPersonModal
