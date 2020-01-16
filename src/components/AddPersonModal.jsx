@@ -41,12 +41,11 @@ export default class AddPersonModal extends Component {
       last_name: this.state.lName,
       email: this.state.email
     };
-    console.log(newPerson, "<-- newPerson");
 
     axios
       .post("http://earnezinochea.challenge.trinom.io/api/peoples", newPerson)
       .then(res => {
-        console.log(res, "<-- respuesta del servidor");
+        console.log(res);
       })
       .catch(error => {
         if (error.response) {

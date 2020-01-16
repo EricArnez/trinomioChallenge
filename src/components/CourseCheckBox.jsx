@@ -1,28 +1,20 @@
-import React, { Component } from "react";
-import { CustomInput } from "reactstrap";
+import { Label, CustomInput } from "reactstrap";
+import React from "react";
 
-export default class CourseCheckBox extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      personHasIt: this.props.courseAndState.courseStateRegardingPerson
-    };
-    console.log(this.state.personHasIt, "<--- personHasIt del coursecheckbox");
-
-    console.log(
-      this.props.courseAndState,
-      "<--- courseAndState del coursecheckbox"
-    );
-  }
-
-  render() {
-    return (
+const Checkbox = ({ label, isSelected, onCheckboxChange, sendID }) => (
+  <div>
+    <Label>
       <CustomInput
         type="checkbox"
-        id={this.props.courseAndState.course.id}
-        label={this.props.courseAndState.course.name}
-        key={this.props.courseAndState.course.id}
-      />
-    );
-  }
-}
+        name={label}
+        checked={isSelected}
+        onChange={onCheckboxChange}
+        id={sendID}
+      >
+        {label}
+      </CustomInput>
+    </Label>
+  </div>
+);
+
+export default Checkbox;

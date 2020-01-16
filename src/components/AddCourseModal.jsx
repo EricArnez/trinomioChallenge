@@ -11,8 +11,8 @@ export default class AddCourseModal extends Component {
     this.setState({ isOpen: !this.state.isOpen });
   };
 
-  handleSubmit = event => {
-    console.log("handle submit de addcoursemodal");
+  handleSubmit = (event, coursesWithStateRegardingPerson) => {
+    event.preventDefault();
   };
 
   render() {
@@ -26,7 +26,6 @@ export default class AddCourseModal extends Component {
             Adding New Courses For {this.props.personFullName}
           </ModalHeader>
           <ModalBody>
-            {" "}
             <CoursesCheckBoxs person={this.props.person} />
           </ModalBody>
 

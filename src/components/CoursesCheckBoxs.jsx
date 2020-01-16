@@ -7,10 +7,23 @@ export default class AddCourseModal extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      checkboxesAndCheckState: []
+    };
     this.coursesWithStateRegardingPerson = [];
     this.setMapCoursesWithStateRegardingPerson();
+    this.mapCourseIdAndCurrentState();
   }
+
+  mapCourseIdAndCurrentState = () => {
+    this.coursesWithStateRegardingPerson.map(courseAndState => {
+      let courseIDAndCurrentCheckState = {
+        courseID: courseAndState.course.id,
+        checked: courseAndState.courseStateRegardingPerson
+      };
+      this.state.checkboxesAndCheckState.push(courseIDAndCurrentCheckState);
+    });
+  };
 
   mapCoursesWithStateRegardingPerson = allCourses => {
     let result = [];
@@ -23,10 +36,7 @@ export default class AddCourseModal extends Component {
       };
       result.push(courseWithState);
     });
-    console.log(
-      result,
-      "<---- result de mapCourseswithstateregarding yadayadayada"
-    );
+
     return result;
   };
 
@@ -46,10 +56,6 @@ export default class AddCourseModal extends Component {
       .then(res => {
         let result = this.mapCoursesWithStateRegardingPerson(res.data);
         this.coursesWithStateRegardingPerson = result;
-        console.log(
-          this.coursesWithStateRegardingPerson,
-          "<--- dentro del then del set map"
-        );
       })
       .catch(error => {
         if (error.response) {
@@ -58,13 +64,25 @@ export default class AddCourseModal extends Component {
       });
   };
 
+  handleCheckboxChange = event => {
+    this.coursesWithStateRegardingPerson.map(courseWithStateRegardingPerson => {
+      if (courseWithStateRegardingPerson.course.id == event.target.id) {
+        courseWithStateRegardingPerson.courseStateRegardingPerson = !courseWithStateRegardingPerson.courseStateRegardingPerson;
+      }
+    });
+  };
+
   render() {
     let renderCheckBox = this.coursesWithStateRegardingPerson.map(
       courseAndState => {
         return (
           <CourseCheckBox
+            label={courseAndState.course.name}
+            isSelected={courseAndState.isSelected}
+            onCheckboxChange={this.handleCheckboxChange}
             courseAndState={courseAndState}
             key={courseAndState.course.id}
+            sendID={courseAndState.course.id}
           />
         );
       }
@@ -73,7 +91,7 @@ export default class AddCourseModal extends Component {
       <Form>
         <FormGroup>
           <Label for="exampleCheckbox">
-            Adding Courses for {this.state.getPersonFullName}
+            Courses: {this.state.getPersonFullName}
           </Label>
           <div>{renderCheckBox}</div>
         </FormGroup>
