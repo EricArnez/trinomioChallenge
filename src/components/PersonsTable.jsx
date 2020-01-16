@@ -44,7 +44,7 @@ export default class PersonsTable extends Component {
           </td>
           <td>
             <ModifyPersonModal
-              personID={person.id}
+              person={person}
               personFullName={personFullName}
             />
           </td>

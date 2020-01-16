@@ -6,28 +6,17 @@ import CourseCheckBox from "./CourseCheckBox";
 export default class AddCourseModal extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      checkboxesAndCheckState: []
+      coursesWithStateRegardingPerson: []
     };
-    this.coursesWithStateRegardingPerson = [];
-    this.setMapCoursesWithStateRegardingPerson();
-    this.mapCourseIdAndCurrentState();
-  }
 
-  mapCourseIdAndCurrentState = () => {
-    this.coursesWithStateRegardingPerson.map(courseAndState => {
-      let courseIDAndCurrentCheckState = {
-        courseID: courseAndState.course.id,
-        checked: courseAndState.courseStateRegardingPerson
-      };
-      this.state.checkboxesAndCheckState.push(courseIDAndCurrentCheckState);
-    });
-  };
+    this.setMapCoursesWithStateRegardingPerson();
+    //this.coursesWithStateRegardingPerson = [];
+  }
 
   mapCoursesWithStateRegardingPerson = allCourses => {
     let result = [];
-    allCourses.map(course => {
+    allCourses.forEach(course => {
       let courseWithState = {
         course: course,
         courseStateRegardingPerson: this.getStateOfCourseRegardingPerson(
@@ -42,8 +31,8 @@ export default class AddCourseModal extends Component {
 
   getStateOfCourseRegardingPerson = courseID => {
     let result = false;
-    this.props.person.courses.map(course => {
-      if (course.id === courseID) {
+    this.props.person.courses.forEach(course => {
+      if (course.id == courseID) {
         result = true;
       }
     });
@@ -55,7 +44,8 @@ export default class AddCourseModal extends Component {
       .get("http://earnezinochea.challenge.trinom.io/api/courses")
       .then(res => {
         let result = this.mapCoursesWithStateRegardingPerson(res.data);
-        this.coursesWithStateRegardingPerson = result;
+        console.log(result, "<--- result");
+        this.setState({ coursesWithStateRegardingPerson: result });
       })
       .catch(error => {
         if (error.response) {
@@ -65,20 +55,66 @@ export default class AddCourseModal extends Component {
   };
 
   handleCheckboxChange = event => {
-    this.coursesWithStateRegardingPerson.map(courseWithStateRegardingPerson => {
-      if (courseWithStateRegardingPerson.course.id == event.target.id) {
-        courseWithStateRegardingPerson.courseStateRegardingPerson = !courseWithStateRegardingPerson.courseStateRegardingPerson;
+    this.state.coursesWithStateRegardingPerson.forEach(
+      courseWithStateRegardingPerson => {
+        if (
+          courseWithStateRegardingPerson.course.id === Number(event.target.id)
+        ) {
+          courseWithStateRegardingPerson.courseStateRegardingPerson = !courseWithStateRegardingPerson.courseStateRegardingPerson;
+        }
+      }
+    );
+    console.log(
+      this.state.coursesWithStateRegardingPerson,
+      "<--- this.coursesWithStateRegardingPerson en handlecheckboxchange"
+    );
+  };
+
+  componentDidMount() {
+    this.props.onRef(this);
+  }
+
+  componentWillUnmount() {
+    this.props.onRef(undefined);
+  }
+
+  updatePersonCourses = () => {
+    console.log("se llamo al metodo");
+
+    let coursesCheckedResult = [];
+
+    this.state.coursesWithStateRegardingPerson.forEach(cWs => {
+      if (cWs.courseStateRegardingPerson == true) {
+        coursesCheckedResult.push(cWs.course);
       }
     });
+
+    let modifiedPersonCourses = this.props.person;
+    modifiedPersonCourses.courses = coursesCheckedResult;
+
+    axios
+      .put(
+        "http://earnezinochea.challenge.trinom.io/api/peoples/" +
+          this.props.person.id,
+        modifiedPersonCourses
+      )
+      .then(res => {
+        window.location.reload();
+      })
+      .catch(error => {
+        if (error.response) {
+          console.log(error.response.data);
+        }
+      });
   };
 
   render() {
-    let renderCheckBox = this.coursesWithStateRegardingPerson.map(
+    let renderCheckBox = this.state.coursesWithStateRegardingPerson.map(
       courseAndState => {
         return (
           <CourseCheckBox
             label={courseAndState.course.name}
-            isSelected={courseAndState.isSelected}
+            isSelected={courseAndState.courseStateRegardingPerson}
             onCheckboxChange={this.handleCheckboxChange}
             courseAndState={courseAndState}
             key={courseAndState.course.id}

@@ -46,13 +46,14 @@ export default class AddPersonModal extends Component {
       .post("http://earnezinochea.challenge.trinom.io/api/peoples", newPerson)
       .then(res => {
         console.log(res);
+
+        //window.location.reload();
       })
       .catch(error => {
         if (error.response) {
           console.log(error.response.data);
         }
       });
-    window.location.reload();
   };
 
   render() {

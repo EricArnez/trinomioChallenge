@@ -11,6 +11,7 @@ import {
   Label,
   Input
 } from "reactstrap";
+import CoursesCheckBoxs from "./CoursesCheckBoxs";
 
 export default class AddPersonModal extends Component {
   constructor(props) {
@@ -38,24 +39,12 @@ export default class AddPersonModal extends Component {
   };
 
   componentDidMount() {
-    axios
-      .get(
-        "http://earnezinochea.challenge.trinom.io/api/peoples/" +
-          this.props.personID
-      )
-      .then(res => {
-        const { first_name, last_name, email } = res.data;
-        this.setState({
-          fName: first_name,
-          lName: last_name,
-          email: email
-        });
-      })
-      .catch(error => {
-        if (error.response) {
-          console.log(error.response.data);
-        }
-      });
+    const { first_name, last_name, email } = this.props.person;
+    this.setState({
+      fName: first_name,
+      lName: last_name,
+      email: email
+    });
   }
 
   handleSubmit = event => {
@@ -65,25 +54,21 @@ export default class AddPersonModal extends Component {
       last_name: this.state.lName,
       email: this.state.email
     };
-
-    console.log(modifiedPerson, "<--- modified person");
-    console.log(this.props.personID, "<--- person ID");
-
     axios
       .put(
         "http://earnezinochea.challenge.trinom.io/api/peoples/" +
-          this.props.personID,
+          this.props.person.id,
         modifiedPerson
       )
       .then(res => {
-        console.log(res, "<-- respuesta del servidor");
+        window.location.reload();
       })
       .catch(error => {
         if (error.response) {
           console.log(error.response.data);
         }
       });
-    window.location.reload();
+    this.child.updatePersonCourses();
   };
 
   render() {
@@ -133,6 +118,11 @@ export default class AddPersonModal extends Component {
                 />
               </FormGroup>
             </Form>
+
+            <CoursesCheckBoxs
+              person={this.props.person}
+              onRef={ref => (this.child = ref)}
+            />
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={this.handleSubmit}>

@@ -7,7 +7,7 @@ const Checkbox = ({ label, isSelected, onCheckboxChange, sendID }) => (
       <CustomInput
         type="checkbox"
         name={label}
-        checked={isSelected}
+        defaultChecked={isSelected}
         onChange={onCheckboxChange}
         id={sendID}
       >

@@ -3,16 +3,20 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import CoursesCheckBoxs from "./CoursesCheckBoxs";
 
 export default class AddCourseModal extends Component {
-  state = {
-    isOpen: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isOpen: false
+    };
+    this.coursesWithStateRegardingPerson = [];
+  }
 
   toggleModal = () => {
     this.setState({ isOpen: !this.state.isOpen });
   };
 
-  handleSubmit = (event, coursesWithStateRegardingPerson) => {
-    event.preventDefault();
+  handleSubmit = event => {
+    this.child.updatePersonCourses();
   };
 
   render() {
@@ -26,12 +30,15 @@ export default class AddCourseModal extends Component {
             Adding New Courses For {this.props.personFullName}
           </ModalHeader>
           <ModalBody>
-            <CoursesCheckBoxs person={this.props.person} />
+            <CoursesCheckBoxs
+              person={this.props.person}
+              onRef={ref => (this.child = ref)}
+            />
           </ModalBody>
 
           <ModalFooter>
             <Button color="primary" onClick={this.handleSubmit}>
-              Submit Changes
+              Submit
             </Button>
             <Button color="secondary" onClick={this.toggleModal}>
               Cancel
