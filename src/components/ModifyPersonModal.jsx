@@ -12,6 +12,7 @@ import {
   Input
 } from "reactstrap";
 import CoursesCheckBoxs from "./CoursesCheckBoxs";
+import PersonInfoForm from "./PersonInfoForm";
 
 export default class AddPersonModal extends Component {
   constructor(props) {
@@ -40,6 +41,7 @@ export default class AddPersonModal extends Component {
 
   componentDidMount() {
     const { first_name, last_name, email } = this.props.person;
+    console.log(last_name, "comp did m last name ");
     this.setState({
       fName: first_name,
       lName: last_name,
@@ -48,27 +50,52 @@ export default class AddPersonModal extends Component {
   }
 
   handleSubmit = event => {
-    event.preventDefault();
-    const modifiedPerson = {
-      first_name: this.state.fName,
-      last_name: this.state.lName,
-      email: this.state.email
-    };
-    axios
-      .put(
-        "http://earnezinochea.challenge.trinom.io/api/peoples/" +
-          this.props.person.id,
-        modifiedPerson
-      )
-      .then(res => {
-        window.location.reload();
-      })
-      .catch(error => {
-        if (error.response) {
-          console.log(error.response.data);
-        }
-      });
-    this.child.updatePersonCourses();
+    if (this.shouldSendAlert()) {
+      this.sendProperAlert();
+    } else {
+      event.preventDefault();
+      const modifiedPerson = {
+        first_name: this.state.fName,
+        last_name: this.state.lName,
+        email: this.state.email
+      };
+      axios
+        .put(
+          "http://earnezinochea.challenge.trinom.io/api/peoples/" +
+            this.props.person.id,
+          modifiedPerson
+        )
+        .then(res => {
+          window.location.reload();
+        })
+        .catch(error => {
+          if (error.response) {
+            console.log(error.response.data);
+          }
+        });
+      this.child.updatePersonCourses();
+    }
+  };
+
+  shouldSendAlert = () => {
+    return this.hasEmptyFields() || !this.state.email.includes("@");
+  };
+
+  sendProperAlert = () => {
+    if (this.hasEmptyFields()) {
+      window.alert("please fill all the fields");
+    } else if (!this.state.email.includes("@")) {
+      window.alert("invalid email");
+    }
+  };
+
+  hasEmptyFields = () => {
+    let result = false;
+    result =
+      this.state.fName == "" ||
+      this.state.lName == "" ||
+      this.state.email == "";
+    return result;
   };
 
   render() {
@@ -82,42 +109,14 @@ export default class AddPersonModal extends Component {
             Modifying {this.props.personFullName}
           </ModalHeader>
           <ModalBody>
-            <Form noValidate>
-              <FormGroup>
-                <Label for="firstName">First Name</Label>
-                <Input
-                  value={this.state.fName}
-                  type="First Name"
-                  name="First Name"
-                  id="firstName"
-                  placeholder={this.state.fName}
-                  onChange={this.handleFNameChange}
-                  autoFocus={true}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="lastName">Last Name</Label>
-                <Input
-                  value={this.state.lName}
-                  type="Last Name"
-                  name="Last Name"
-                  id="lastName"
-                  placeholder={this.state.lName}
-                  onChange={this.handleLNameChange}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="email">Email</Label>
-                <Input
-                  value={this.state.email}
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder={this.state.email}
-                  onChange={this.handleEmailChange}
-                />
-              </FormGroup>
-            </Form>
+            <PersonInfoForm
+              parentHandleFNameChange={this.handleFNameChange}
+              parentHandleLNameChange={this.handleLNameChange}
+              parentHandleEmailChange={this.handleEmailChange}
+              emailValue={this.state.email}
+              fNameValue={this.state.fName}
+              lNameValue={this.state.lName}
+            />
 
             <CoursesCheckBoxs
               person={this.props.person}
