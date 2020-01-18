@@ -11,7 +11,6 @@ export default class AddCourseModal extends Component {
     };
 
     this.setMapCoursesWithStateRegardingPerson();
-    //this.coursesWithStateRegardingPerson = [];
   }
 
   mapCoursesWithStateRegardingPerson = allCourses => {
@@ -32,7 +31,7 @@ export default class AddCourseModal extends Component {
   getStateOfCourseRegardingPerson = courseID => {
     let result = false;
     this.props.person.courses.forEach(course => {
-      if (course.id == courseID) {
+      if (course.id === courseID) {
         result = true;
       }
     });
@@ -44,7 +43,6 @@ export default class AddCourseModal extends Component {
       .get("http://earnezinochea.challenge.trinom.io/api/courses")
       .then(res => {
         let result = this.mapCoursesWithStateRegardingPerson(res.data);
-        console.log(result, "<--- result");
         this.setState({ coursesWithStateRegardingPerson: result });
       })
       .catch(error => {
@@ -64,10 +62,6 @@ export default class AddCourseModal extends Component {
         }
       }
     );
-    console.log(
-      this.state.coursesWithStateRegardingPerson,
-      "<--- this.coursesWithStateRegardingPerson en handlecheckboxchange"
-    );
   };
 
   componentDidMount() {
@@ -79,12 +73,10 @@ export default class AddCourseModal extends Component {
   }
 
   updatePersonCourses = () => {
-    console.log("se llamo al metodo");
-
     let coursesCheckedResult = [];
 
     this.state.coursesWithStateRegardingPerson.forEach(cWs => {
-      if (cWs.courseStateRegardingPerson == true) {
+      if (cWs.courseStateRegardingPerson) {
         coursesCheckedResult.push(cWs.course);
       }
     });

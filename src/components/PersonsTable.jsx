@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Table, Button } from "reactstrap";
+import { Table } from "reactstrap";
 import axios from "axios";
 import ModifyPersonModal from "./ModifyPersonModal";
 import AddCourseModal from "./AddCourseModal";
+import RemovePersonModal from "./RemovePersonModal";
 
 export default class PersonsTable extends Component {
   state = {
@@ -16,21 +17,6 @@ export default class PersonsTable extends Component {
         this.setState({ persons: res.data.data });
       });
   }
-
-  handleDelete = personID => {
-    axios
-      .delete(
-        "http://earnezinochea.challenge.trinom.io/api/peoples/" + personID
-      )
-      .then(res => {
-        window.location.reload();
-      })
-      .catch(error => {
-        if (error.response) {
-          console.log(error.response.data);
-        }
-      });
-  };
 
   render() {
     let renderTableRow = this.state.persons.map(person => {
@@ -49,9 +35,10 @@ export default class PersonsTable extends Component {
             />
           </td>
           <td>
-            <Button color="danger" onClick={() => this.handleDelete(person.id)}>
-              remove person
-            </Button>
+            <RemovePersonModal
+              person={person}
+              personFullName={personFullName}
+            />
           </td>
         </tr>
       );

@@ -23,7 +23,7 @@ export default class AddCourseModal extends Component {
     return (
       <React.Fragment>
         <Button color="primary" onClick={this.toggleModal}>
-          Add New Courses
+          Courses
         </Button>
         <Modal isOpen={this.state.isOpen} autoFocus={false}>
           <ModalHeader toggle={this.toggleModal}>

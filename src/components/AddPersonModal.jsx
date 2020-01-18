@@ -1,17 +1,7 @@
 import PersonInfoForm from "./PersonInfoForm";
 import React, { Component } from "react";
 import axios from "axios";
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Form,
-  FormGroup,
-  Label,
-  Input
-} from "reactstrap";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 export default class AddPersonModal extends Component {
   constructor(props) {
@@ -68,7 +58,7 @@ export default class AddPersonModal extends Component {
   sendProperAlert = () => {
     if (this.hasEmptyFields()) {
       window.alert("please fill all the fields");
-    } else if (!this.state.email.includes("@")) {
+    } else if (this.hasInvalidEmail()) {
       window.alert("invalid email");
     }
   };
@@ -76,10 +66,14 @@ export default class AddPersonModal extends Component {
   hasEmptyFields = () => {
     let result = false;
     result =
-      this.state.fName == "" ||
-      this.state.lName == "" ||
-      this.state.email == "";
+      this.state.fName === "" ||
+      this.state.lName === "" ||
+      this.state.email === "";
     return result;
+  };
+
+  hasInvalidEmail = () => {
+    return !this.state.email.includes("@");
   };
 
   render() {
