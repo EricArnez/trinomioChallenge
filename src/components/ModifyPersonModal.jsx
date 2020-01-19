@@ -58,9 +58,8 @@ export default class AddPersonModal extends Component {
           window.location.reload();
         })
         .catch(error => {
-          if (error.response) {
-            console.log(error.response.data);
-          }
+          window.alert(error.response.data.message);
+          console.log(error.response.data);
         });
       this.child.updatePersonCourses();
     }
