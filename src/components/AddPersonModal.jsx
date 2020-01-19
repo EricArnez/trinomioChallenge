@@ -31,7 +31,7 @@ export default class AddPersonModal extends Component {
     this.setState({ email: event.target.value });
   };
 
-  handleSubmit = event => {
+  handleSubmit = () => {
     if (this.shouldSendAlert()) {
       this.sendProperAlert();
     } else {
@@ -43,13 +43,15 @@ export default class AddPersonModal extends Component {
       axios
         .post("http://earnezinochea.challenge.trinom.io/api/peoples", newPerson)
         .then(res => {
-          window.location.reload();
+          this.props.refreshParentComponent();
         })
         .catch(error => {
-          window.alert(error.response.data.message);
-          console.log(error.response);
+          if (error.response) {
+            window.alert(error.response.data.message);
+          }
         });
     }
+    this.setState({ isOpen: false });
   };
 
   shouldSendAlert = () => {
@@ -80,7 +82,12 @@ export default class AddPersonModal extends Component {
   render() {
     return (
       <React.Fragment>
-        <Button color="primary" onClick={this.toggleModal} autoFocus>
+        <Button
+          className="mb-2"
+          color="primary"
+          onClick={this.toggleModal}
+          autoFocus
+        >
           Add New Person
         </Button>
         <Modal isOpen={this.state.isOpen} autoFocus={false}>

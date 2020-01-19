@@ -47,7 +47,7 @@ export default class AddCourseModal extends Component {
       })
       .catch(error => {
         if (error.response) {
-          console.log(error.response.data);
+          window.alert(error.response.data.message);
         }
       });
   };
@@ -72,7 +72,7 @@ export default class AddCourseModal extends Component {
     this.props.onRef(undefined);
   }
 
-  updatePersonCourses = () => {
+  updatePersonCourses = person => {
     let coursesCheckedResult = [];
 
     this.state.coursesWithStateRegardingPerson.forEach(cWs => {
@@ -80,8 +80,7 @@ export default class AddCourseModal extends Component {
         coursesCheckedResult.push(cWs.course);
       }
     });
-
-    let modifiedPersonCourses = this.props.person;
+    let modifiedPersonCourses = person;
     modifiedPersonCourses.courses = coursesCheckedResult;
 
     axios
@@ -91,11 +90,11 @@ export default class AddCourseModal extends Component {
         modifiedPersonCourses
       )
       .then(res => {
-        window.location.reload();
+        this.props.refreshParentComponent();
       })
       .catch(error => {
         if (error.response) {
-          console.log(error.response.data);
+          window.alert(error.response.data.message);
         }
       });
   };

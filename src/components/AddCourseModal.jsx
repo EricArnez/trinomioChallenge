@@ -15,8 +15,9 @@ export default class AddCourseModal extends Component {
     this.setState({ isOpen: !this.state.isOpen });
   };
 
-  handleSubmit = event => {
-    this.child.updatePersonCourses();
+  handleSubmit = async () => {
+    await this.child.updatePersonCourses(this.props.person);
+    this.setState({ isOpen: false });
   };
 
   render() {

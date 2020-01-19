@@ -38,11 +38,10 @@ export default class AddPersonModal extends Component {
     });
   }
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     if (this.shouldSendAlert()) {
       this.sendProperAlert();
     } else {
-      event.preventDefault();
       const modifiedPerson = {
         first_name: this.state.fName,
         last_name: this.state.lName,
@@ -55,13 +54,15 @@ export default class AddPersonModal extends Component {
           modifiedPerson
         )
         .then(res => {
-          window.location.reload();
+          this.child.updatePersonCourses(modifiedPerson);
+          this.props.refreshParentComponent();
+          this.setState({ isOpen: false });
         })
         .catch(error => {
-          window.alert(error.response.data.message);
-          console.log(error.response.data);
+          if (error.response) {
+            window.alert(error.response.data.message);
+          }
         });
-      this.child.updatePersonCourses();
     }
   };
 

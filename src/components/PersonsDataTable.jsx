@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from "react";
-import { render } from "react-dom";
+import React, { Component } from "react";
 import ReactDatatable from "@ashvin27/react-datatable";
 import axios from "axios";
 import AddCourseModal from "./AddCourseModal";
@@ -43,7 +42,11 @@ export default class PersonsDataTable extends Component {
           let personFullName = this.getPersonFullNameOfRecord(record);
 
           return (
-            <AddCourseModal person={record} personFullName={personFullName} />
+            <AddCourseModal
+              person={record}
+              personFullName={personFullName}
+              refreshParentComponent={this.refreshComponent}
+            />
           );
         }
       },
@@ -60,6 +63,7 @@ export default class PersonsDataTable extends Component {
             <ModifyPersonModal
               person={record}
               personFullName={personFullName}
+              refreshParentComponent={this.refreshComponent}
             />
           );
         }
@@ -77,6 +81,9 @@ export default class PersonsDataTable extends Component {
             <RemovePersonModal
               person={record}
               personFullName={personFullName}
+              refreshParentComponent={this.refreshComponent}
+              hideConfirmation={this.hideConfirmation}
+              hideConfirmationState={this.state.hideRemoveModals}
             />
           );
         }
@@ -93,31 +100,73 @@ export default class PersonsDataTable extends Component {
     };
 
     this.state = {
-      persons: []
+      persons: [],
+      hideRemoveModals: localStorage.getItem("hideRemovModal")
     };
+
+    this.lastPersonPageFromRestAPI = 0;
   }
+
+  hideConfirmation = () => {
+    localStorage.setItem("hideRemovModal", true);
+  };
+
+  setLastPersonPageFromRestAPI = async () => {
+    await axios
+      .get("http://earnezinochea.challenge.trinom.io/api/peoples")
+      .then(res => {
+        this.lastPersonPageFromRestAPI = res.data.last_page;
+      });
+  };
 
   getPersonFullNameOfRecord = record => {
     return record.first_name + " " + record.last_name;
   };
 
-  componentDidMount() {
-    axios
-      .get("http://earnezinochea.challenge.trinom.io/api/peoples")
-      .then(res => {
-        console.log(res.data.data, " res . data .data");
-        this.setState({ persons: res.data.data });
-      });
+  async componentDidMount() {
+    this.setState({ persons: await this.getPersonsDataFromAllPages() });
   }
+
+  getPersonsDataFromAllPages = async () => {
+    await this.setLastPersonPageFromRestAPI();
+    let allPersons = [];
+    let lPageNumber = this.lastPersonPageFromRestAPI;
+    for (lPageNumber; lPageNumber > 0; lPageNumber--) {
+      await (await this.getPersonsDataFromPage(lPageNumber)).forEach(person => {
+        allPersons.push(person);
+      });
+    }
+    return allPersons;
+  };
+
+  refreshComponent = async () => {
+    let allPersons = await this.getPersonsDataFromAllPages();
+    this.setState({ persons: allPersons });
+  };
+
+  getPersonsDataFromPage = async pageNumber => {
+    let result = [];
+    await axios
+      .get(
+        "http://earnezinochea.challenge.trinom.io/api/peoples?page=" +
+          pageNumber
+      )
+      .then(res => {
+        result = res.data.data;
+        return result;
+      });
+    return result;
+  };
 
   render() {
     return (
       <div>
+        <AddPersonModal refreshParentComponent={this.refreshComponent} />
+
         <ReactDatatable
           config={this.config}
           records={this.state.persons}
           columns={this.columns}
-          extraButtons={this.extraButtons}
         />
       </div>
     );

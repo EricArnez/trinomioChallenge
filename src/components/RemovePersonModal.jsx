@@ -14,8 +14,9 @@ export default class RemovePersonModal extends Component {
     super(props);
     this.state = {
       isOpen: false,
-      hide: localStorage.getItem("hideConfirmation")
+      hide: this.props.hideConfirmationState
     };
+    this.modalIsHiden = false;
   }
 
   toggleModal = () => {
@@ -23,7 +24,8 @@ export default class RemovePersonModal extends Component {
   };
 
   hideConfirmation = () => {
-    localStorage.setItem("hideConfirmation", true);
+    this.props.hideConfirmation();
+    this.modalIsHiden = true;
   };
 
   handleRemove = () => {
@@ -33,27 +35,31 @@ export default class RemovePersonModal extends Component {
           this.props.person.id
       )
       .then(res => {
-        window.location.reload();
+        this.props.refreshParentComponent();
       })
       .catch(error => {
         if (error.response) {
-          console.log(error.response.data);
+          window.alert(error.response.data.message);
         }
       });
+    if (this.modalIsHiden) {
+      this.modalIsHiden = false;
+      window.location.reload();
+    }
   };
 
   render() {
     if (this.state.hide) {
       return (
         <Button color="danger" onClick={this.handleRemove}>
-          Remove
+          Remove Person
         </Button>
       );
     } else {
       return (
         <React.Fragment>
           <Button color="warning" onClick={this.toggleModal}>
-            Remove
+            Remove Person?
           </Button>
           <Modal isOpen={this.state.isOpen}>
             <ModalHeader toggle={this.toggleModal}>
