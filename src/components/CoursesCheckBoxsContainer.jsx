@@ -3,7 +3,7 @@ import axios from "axios";
 import { Form, FormGroup, Label } from "reactstrap";
 import CourseCheckBox from "./CourseCheckBox";
 
-export default class AddCourseModal extends Component {
+export default class CoursesCheckBoxsContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {

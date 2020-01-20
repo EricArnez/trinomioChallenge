@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import CoursesCheckBoxs from "./CoursesCheckBoxs";
+import CoursesCheckBoxsContainer from "./CoursesCheckBoxsContainer";
 import PersonInfoForm from "./PersonInfoForm";
 
 export default class AddPersonModal extends Component {
@@ -38,7 +38,7 @@ export default class AddPersonModal extends Component {
     });
   }
 
-  handleSubmit = async event => {
+  handleSubmit = event => {
     if (this.shouldSendAlert()) {
       this.sendProperAlert();
     } else {
@@ -111,7 +111,7 @@ export default class AddPersonModal extends Component {
               lNameValue={this.state.lName}
             />
 
-            <CoursesCheckBoxs
+            <CoursesCheckBoxsContainer
               person={this.props.person}
               onRef={ref => (this.child = ref)}
             />

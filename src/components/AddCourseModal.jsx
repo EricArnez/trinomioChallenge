@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import CoursesCheckBoxs from "./CoursesCheckBoxs";
+import CoursesCheckBoxsContainer from "./CoursesCheckBoxsContainer";
 
 export default class AddCourseModal extends Component {
   constructor(props) {
@@ -26,12 +26,12 @@ export default class AddCourseModal extends Component {
         <Button color="primary" onClick={this.toggleModal}>
           Courses
         </Button>
-        <Modal isOpen={this.state.isOpen} autoFocus={false}>
+        <Modal isOpen={this.state.isOpen}>
           <ModalHeader toggle={this.toggleModal}>
             Adding New Courses For {this.props.personFullName}
           </ModalHeader>
           <ModalBody>
-            <CoursesCheckBoxs
+            <CoursesCheckBoxsContainer
               person={this.props.person}
               onRef={ref => (this.child = ref)}
             />

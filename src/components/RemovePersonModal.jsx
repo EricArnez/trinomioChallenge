@@ -42,6 +42,8 @@ export default class RemovePersonModal extends Component {
           window.alert(error.response.data.message);
         }
       });
+
+    //the whole page reloads only the first and only time the modal is set to hidden.
     if (this.modalIsHiden) {
       this.modalIsHiden = false;
       window.location.reload();

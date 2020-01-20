@@ -19,7 +19,7 @@ or you could:
 - Clone the project
 - run the `npm install` command in the project folder
 - then run `npm start`
-- Open [http://localhost:3000]
+- Open [http://localhost:3000](http://localhost:3000)
 
 # Known issues
 
