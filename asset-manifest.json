@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/trinomioChallengeWeb/static/css/main.d498bfb3.chunk.css",
+    "main.js": "/trinomioChallengeWeb/static/js/main.54d73a0f.chunk.js",
+    "main.js.map": "/trinomioChallengeWeb/static/js/main.54d73a0f.chunk.js.map",
+    "runtime-main.js": "/trinomioChallengeWeb/static/js/runtime-main.8b10ebec.js",
+    "runtime-main.js.map": "/trinomioChallengeWeb/static/js/runtime-main.8b10ebec.js.map",
+    "static/css/2.8ba03ab4.chunk.css": "/trinomioChallengeWeb/static/css/2.8ba03ab4.chunk.css",
+    "static/js/2.d42e258a.chunk.js": "/trinomioChallengeWeb/static/js/2.d42e258a.chunk.js",
+    "static/js/2.d42e258a.chunk.js.map": "/trinomioChallengeWeb/static/js/2.d42e258a.chunk.js.map",
+    "index.html": "/trinomioChallengeWeb/index.html",
+    "precache-manifest.7c7d0acb165336fb9427c6598a81614c.js": "/trinomioChallengeWeb/precache-manifest.7c7d0acb165336fb9427c6598a81614c.js",
+    "service-worker.js": "/trinomioChallengeWeb/service-worker.js",
+    "static/css/2.8ba03ab4.chunk.css.map": "/trinomioChallengeWeb/static/css/2.8ba03ab4.chunk.css.map",
+    "static/css/main.d498bfb3.chunk.css.map": "/trinomioChallengeWeb/static/css/main.d498bfb3.chunk.css.map",
+    "static/js/2.d42e258a.chunk.js.LICENSE": "/trinomioChallengeWeb/static/js/2.d42e258a.chunk.js.LICENSE"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.8b10ebec.js",
+    "static/css/2.8ba03ab4.chunk.css",
+    "static/js/2.d42e258a.chunk.js",
+    "static/css/main.d498bfb3.chunk.css",
+    "static/js/main.54d73a0f.chunk.js"
+  ]
+}
