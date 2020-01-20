@@ -14,7 +14,9 @@ export default class PersonsTable extends Component {
 
   componentDidMount() {
     axios
-      .get("http://earnezinochea.challenge.trinom.io/api/peoples")
+      .get(
+        "https://cors-anywhere.herokuapp.com/http://earnezinochea.challenge.trinom.io/api/peoples"
+      )
       .then(res => {
         this.setState({ persons: res.data.data });
       });

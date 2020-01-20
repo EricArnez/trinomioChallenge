@@ -47,12 +47,12 @@ const PersonInfoForm = ({
       </AvGroup>
 
       <AvGroup>
-        <Label>email</Label>
+        <Label>Email</Label>
         <AvInput
           value={emailValue}
-          type="emaiewe"
-          name="email"
-          id="e mail"
+          type="mail"
+          name="Email"
+          id="email"
           placeholder="Email..."
           onChange={parentHandleEmailChange}
           required

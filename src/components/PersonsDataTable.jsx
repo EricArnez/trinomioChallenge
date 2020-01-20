@@ -13,21 +13,21 @@ export default class PersonsDataTable extends Component {
     this.columns = [
       {
         key: "first_name",
-        text: "first_name",
+        text: "First Name",
         className: "name",
         align: "left",
         sortable: true
       },
       {
         key: "last_name",
-        text: "last_name",
+        text: "Last Name",
         className: "name",
         align: "left",
         sortable: true
       },
       {
         key: "email",
-        text: "email",
+        text: "Email",
         className: "postcode",
         sortable: true
       },
@@ -113,7 +113,9 @@ export default class PersonsDataTable extends Component {
 
   setLastPersonPageFromRestAPI = async () => {
     await axios
-      .get("http://earnezinochea.challenge.trinom.io/api/peoples")
+      .get(
+        "https://cors-anywhere.herokuapp.com/http://earnezinochea.challenge.trinom.io/api/peoples"
+      )
       .then(res => {
         this.lastPersonPageFromRestAPI = res.data.last_page;
       });
@@ -148,7 +150,7 @@ export default class PersonsDataTable extends Component {
     let result = [];
     await axios
       .get(
-        "http://earnezinochea.challenge.trinom.io/api/peoples?page=" +
+        "https://cors-anywhere.herokuapp.com/http://earnezinochea.challenge.trinom.io/api/peoples?page=" +
           pageNumber
       )
       .then(res => {

@@ -31,7 +31,7 @@ export default class RemovePersonModal extends Component {
   handleRemove = () => {
     axios
       .delete(
-        "http://earnezinochea.challenge.trinom.io/api/peoples/" +
+        "https://cors-anywhere.herokuapp.com/http://earnezinochea.challenge.trinom.io/api/peoples/" +
           this.props.person.id
       )
       .then(res => {

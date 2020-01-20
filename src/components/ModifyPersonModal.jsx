@@ -49,7 +49,7 @@ export default class AddPersonModal extends Component {
       };
       axios
         .put(
-          "http://earnezinochea.challenge.trinom.io/api/peoples/" +
+          "https://cors-anywhere.herokuapp.com/http://earnezinochea.challenge.trinom.io/api/peoples/" +
             this.props.person.id,
           modifiedPerson
         )

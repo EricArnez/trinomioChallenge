@@ -41,9 +41,14 @@ export default class AddPersonModal extends Component {
         email: this.state.email
       };
       axios
-        .post("http://earnezinochea.challenge.trinom.io/api/peoples", newPerson)
+        .post(
+          "https://cors-anywhere.herokuapp.com/http://earnezinochea.challenge.trinom.io/api/peoples",
+          newPerson
+        )
         .then(res => {
           this.props.refreshParentComponent();
+
+          this.setState({ isOpen: false });
         })
         .catch(error => {
           if (error.response) {
@@ -51,7 +56,6 @@ export default class AddPersonModal extends Component {
           }
         });
     }
-    this.setState({ isOpen: false });
   };
 
   shouldSendAlert = () => {

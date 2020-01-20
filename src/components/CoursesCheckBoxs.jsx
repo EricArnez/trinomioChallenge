@@ -40,7 +40,9 @@ export default class AddCourseModal extends Component {
 
   setMapCoursesWithStateRegardingPerson = () => {
     axios
-      .get("http://earnezinochea.challenge.trinom.io/api/courses")
+      .get(
+        "https://cors-anywhere.herokuapp.com/http://earnezinochea.challenge.trinom.io/api/courses"
+      )
       .then(res => {
         let result = this.mapCoursesWithStateRegardingPerson(res.data);
         this.setState({ coursesWithStateRegardingPerson: result });
@@ -85,7 +87,7 @@ export default class AddCourseModal extends Component {
 
     axios
       .put(
-        "http://earnezinochea.challenge.trinom.io/api/peoples/" +
+        "https://cors-anywhere.herokuapp.com/http://earnezinochea.challenge.trinom.io/api/peoples/" +
           this.props.person.id,
         modifiedPersonCourses
       )
